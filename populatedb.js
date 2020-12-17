@@ -122,9 +122,6 @@ function createGenreAuthors(cb) {
         function(callback) {
           authorCreate('Jim', 'Jones', '1971-12-16', false, callback);
         },
-         function(callback) {
-          authorCreate('Padelos', 'Vasiliadis', '1999-06-06', false, callback);
-        },
         function(callback) {
           genreCreate("Fantasy", callback);
         },

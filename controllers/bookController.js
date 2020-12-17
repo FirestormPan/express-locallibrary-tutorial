@@ -168,19 +168,21 @@ exports.book_create_post = [
 exports.book_delete_get = function(req, res, next) {
 
     async.parallel({
-        book: function(callback){
+        book: function(callback) {
             Book.findById(req.params.id).populate('author').populate('genre').exec(callback);
         },
-        book_bookinstances: function(callback){
-            BookInstance.find({'book' : req.params.id}).exec(callback)
+        book_bookinstances: function(callback) {
+            BookInstance.find({ 'book': req.params.id }).exec(callback);
         },
-    }, function(err,results){
+    }, function(err, results) {
         if (err) { return next(err); }
-        if (results.book == null) { // No results.
+        if (results.book==null) { // No results.
             res.redirect('/catalog/books');
-        }   
-        res.render('book_delete', { title: 'Delete Book', book: results.book, book_bookinstances: results.book_bookinstances });
-    });    
+        }
+        // Successful, so render.
+        res.render('book_delete', { title: 'Delete Book', book: results.book, book_instances: results.book_bookinstances } );
+    });
+
 };
 
 // Handle book delete on POST.
@@ -213,7 +215,9 @@ exports.book_delete_post = function(req, res, next) {
 
         }
     });
+
 };
+
 // Display book update form on GET.
 exports.book_update_get = function(req, res, next) {
 
